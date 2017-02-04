@@ -157,3 +157,6 @@ enable_rally: "no"
 # selected then swift_devices_name should specify a pattern which would match to
 # filesystems' labels prepared for swift.
 #swift_devices_name: "KOLLA_SWIFT_DATA"
+
+#glance_backend_file: "yes"
+glance_backend_ceph: "yes"
