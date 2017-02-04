@@ -265,3 +265,6 @@ ceph_cache_rule: "cache host firstn"
 #######################################
 manila_enable_dhss: "yes"
 manila_dhss: "{{ 'True' if manila_enable_dhss | bool else 'False' }}"
+
+#Enable Ceph backend for nova
+nova_backend: "{{ 'rbd' if nova_backend_ceph | bool else 'default' }}"

@@ -1,7 +1,7 @@
 ---
 - include: ceph.yml
   when:
-    - enable_ceph | bool
+    - enable_ceph | bool and nova_backend == "rbd"
     - inventory_hostname in groups['ceph-mon'] or
         inventory_hostname in groups['compute'] or
         inventory_hostname in groups['nova-api'] or

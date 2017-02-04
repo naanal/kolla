@@ -160,3 +160,5 @@ enable_rally: "no"
 
 #glance_backend_file: "yes"
 glance_backend_ceph: "yes"
+
+nova_backend_ceph: "no"

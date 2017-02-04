@@ -6,7 +6,7 @@
             "dest": "/etc/nova/nova.conf",
             "owner": "nova",
             "perm": "0600"
-        }{% if enable_ceph | bool %},
+        }{% if nova_backend == "rbd" %},
         {
             "source": "{{ container_config_directory }}/ceph.client.nova.keyring",
             "dest": "/etc/ceph/ceph.client.nova.keyring",
