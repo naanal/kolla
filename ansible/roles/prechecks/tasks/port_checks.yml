@@ -90,7 +90,7 @@
 - name: Checking free port for Horizon
   wait_for:
     host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
-    port: "80"
+    port: "8001"
     connect_timeout: 1
     state: stopped
   when: inventory_hostname in groups['horizon']
@@ -98,7 +98,7 @@
 - name: Checking free port for Horizon HAProxy
   wait_for:
     host: "{{ kolla_internal_vip_address }}"
-    port: "80"
+    port: "8001"
     connect_timeout: 1
     state: stopped
   when: inventory_hostname in groups['haproxy']

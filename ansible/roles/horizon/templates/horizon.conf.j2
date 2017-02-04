@@ -1,7 +1,7 @@
 {% set python_path = '/usr/lib/python2.7/site-packages' if kolla_install_type == 'binary' else '/var/lib/kolla/venv/lib/python2.7/site-packages' %}
-Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:80
+Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:8001
 
-<VirtualHost *:80>
+<VirtualHost *:8001>
     LogLevel warn
     ErrorLog /var/log/kolla/horizon/horizon.log
     CustomLog /var/log/kolla/horizon/horizon-access.log combined
