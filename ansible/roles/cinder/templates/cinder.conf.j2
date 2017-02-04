@@ -24,7 +24,7 @@ default_volume_type = rbd-1
 enabled_backends = rbd-1
 {% endif %}
 
-{% if service_name == "cinder-backup" and cinder_volume_driver == "ceph" %}
+{% if service_name == "cinder-backup" and cinder_volume_backup_driver == "ceph" %}
 backup_driver = cinder.backup.drivers.ceph
 backup_ceph_conf = /etc/ceph/ceph.conf
 backup_ceph_user = cinder-backup
@@ -34,6 +34,14 @@ backup_ceph_stripe_unit = 0
 backup_ceph_stripe_count = 0
 restore_discard_excess_bytes = true
 {% endif %}
+
+{% if service_name == "cinder-backup" and cinder_volume_backup_driver == "nfs" %}
+backup_driver = cinder.backup.drivers.nfs
+backup_mount_options = rw,nolock,hard,intr,nfsvers=3,tcp,rsize=131072,wsize=131072,bg
+backup_mount_point_base = /var/lib/cinder/backup
+backup_share = {{ cinder_backup_share }}
+{% endif %}
+
 
 osapi_volume_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 osapi_volume_listen_port = {{ cinder_api_port }}

@@ -158,7 +158,22 @@ enable_rally: "no"
 # filesystems' labels prepared for swift.
 #swift_devices_name: "KOLLA_SWIFT_DATA"
 
+#######################################
+# Glance Backend Options
+#######################################
+
 #glance_backend_file: "yes"
 glance_backend_ceph: "yes"
 
+#######################################
+# Nova Backend Options
+#######################################
+
 nova_backend_ceph: "no"
+
+#######################################
+# Volume Backup Backend Options
+#######################################
+
+enable_nfs: "yes"
+cinder_backup_share: ""
