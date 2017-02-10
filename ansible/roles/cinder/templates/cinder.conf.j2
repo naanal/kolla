@@ -80,7 +80,40 @@ rabbit_ha_queues = true
 rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
-{% if cinder_volume_driver == "lvm" %}
+{% if enable_ssd %}
+[lvmdriver-1]
+lvm_type = default
+volume_group = cinder-volumes
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_backend_name = lvmdriver-1
+
+[rbd-1]
+volume_driver = cinder.volume.drivers.rbd.RBDDriver
+rbd_pool = {{ ceph_cinder_pool_name }}
+rbd_ceph_conf = /etc/ceph/ceph.conf
+rbd_flatten_volume_from_snapshot = false
+rbd_max_clone_depth = 5
+rbd_store_chunk_size = 4
+rados_connect_timeout = -1
+rbd_user = cinder
+rbd_secret_uuid = {{ rbd_secret_uuid }}
+report_discard_supported = True
+volume_backend_name = RBD_SSD
+
+[rbd-2]
+volume_driver = cinder.volume.drivers.rbd.RBDDriver
+rbd_pool = {{ ceph_cinder_pool_name }}
+rbd_ceph_conf = /etc/ceph/ceph.conf
+rbd_flatten_volume_from_snapshot = false
+rbd_max_clone_depth = 5
+rbd_store_chunk_size = 4
+rados_connect_timeout = -1
+rbd_user = cinder-backup
+rbd_secret_uuid = 853db9b4-8e45-4f45-b9d8-6d7b5929c21c
+report_discard_supported = True
+volume_backend_name = RBD_HDD
+
+{% elif cinder_volume_driver == "lvm" %}
 [lvmdriver-1]
 lvm_type = default
 volume_group = cinder-volumes
