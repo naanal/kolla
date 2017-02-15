@@ -181,3 +181,7 @@ cinder_backup_share: ""
 # SSD Backend Enable
 #######################################
 enable_ssd: 'True'
+######################################
+#  Secrete.xml creation cinder backup
+#####################################
+rbd_backup_secret_uuid: "853db9b4-8e45-4f45-b9d8-6d7b5929c21d"
