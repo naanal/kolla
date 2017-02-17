@@ -1,0 +1,10 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+  with_items:
+    - "nova-compute"
+    - "nova-libvirt/secrets"
+  when: inventory_hostname in groups['compute']
+

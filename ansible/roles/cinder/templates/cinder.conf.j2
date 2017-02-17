@@ -19,6 +19,8 @@ os_region_name = {{ openstack_region_name }}
 {% if cinder_volume_driver == "lvm" %}
 default_volume_type = lvmdriver-1
 enabled_backends = lvmdriver-1
+{% elif enable_ssd %}
+enabled_backends = rbd-1,rbd-2 
 {% elif cinder_volume_driver == "ceph" %}
 default_volume_type = rbd-1
 enabled_backends = rbd-1
