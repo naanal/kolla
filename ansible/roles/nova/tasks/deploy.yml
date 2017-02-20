@@ -10,6 +10,10 @@
         inventory_hostname in groups['nova-novncproxy'] or
         inventory_hostname in groups['nova-scheduler']
 
+- include: create_foldersec_enablessd.yml
+  when: enable_ssd
+
+
 - include: register.yml
   when: inventory_hostname in groups['nova-api']
 
