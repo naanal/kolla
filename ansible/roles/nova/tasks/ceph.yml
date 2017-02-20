@@ -59,4 +59,3 @@
     dest: "{{ node_config_directory }}/nova-libvirt/secrets/{{ rbd_secret_uuid }}.base64"
     mode: "0600"
   when: inventory_hostname in groups['compute']
-

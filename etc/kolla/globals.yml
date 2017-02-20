@@ -83,7 +83,7 @@ neutron_external_interface: "eth1"
 # Arbitary unique number from 0..255
 #keepalived_virtual_router_id: "51"
 
-enable_haproxy: "no"
+
 ####################
 # TLS options
 ####################
@@ -106,7 +106,7 @@ enable_haproxy: "no"
 
 # OpenStack services can be enabled or disabled with these options
 #enable_central_logging: "no"
-enable_ceph: "no"
+enable_ceph: "yes"
 #enable_ceph_rgw: "no"
 enable_cinder: "yes"
 enable_heat: "no"
@@ -174,14 +174,13 @@ nova_backend_ceph: "no"
 #######################################
 # Volume Backup Backend Options
 #######################################
+enable_haproxy: "no"
 
 enable_nfs: "yes"
 cinder_backup_share: ""
 #######################################
 # SSD Backend Enable
 #######################################
-enable_ssd: 'True'
-######################################
-#  Secrete.xml creation cinder backup
-#####################################
-rbd_backup_secret_uuid: "853db9b4-8e45-4f45-b9d8-6d7b5929c21d"
+enable_ssd: "True"
+
+backup_uuid: "853db9b4-8e45-4f45-b9d8-6d7b5929c21d"

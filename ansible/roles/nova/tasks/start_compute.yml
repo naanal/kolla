@@ -17,7 +17,6 @@
       - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
       - "nova_libvirt_qemu:/etc/libvirt/qemu"
-      - "/dev/vfio:/dev/vfio"
   when: inventory_hostname in groups['compute']
 
 - name: Starting nova-compute container
@@ -35,7 +34,6 @@
       - "kolla_logs:/var/log/kolla/"
       - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
-      - "/dev/vfio:/dev/vfio"
   when:
     - inventory_hostname in groups['compute']
     - not enable_nova_fake | bool

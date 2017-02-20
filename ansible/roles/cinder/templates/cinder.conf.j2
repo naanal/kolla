@@ -20,6 +20,7 @@ os_region_name = {{ openstack_region_name }}
 default_volume_type = lvmdriver-1
 enabled_backends = lvmdriver-1
 {% elif enable_ssd %}
+default_volume_type = rbd-1
 enabled_backends = rbd-1,rbd-2 
 {% elif cinder_volume_driver == "ceph" %}
 default_volume_type = rbd-1
@@ -81,7 +82,6 @@ rabbit_password = {{ rabbitmq_password }}
 rabbit_ha_queues = true
 rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
-
 {% if enable_ssd %}
 [lvmdriver-1]
 lvm_type = default
@@ -104,14 +104,14 @@ volume_backend_name = RBD_SSD
 
 [rbd-2]
 volume_driver = cinder.volume.drivers.rbd.RBDDriver
-rbd_pool = {{ ceph_cinder_pool_name }}
+rbd_pool = backups
 rbd_ceph_conf = /etc/ceph/ceph.conf
 rbd_flatten_volume_from_snapshot = false
 rbd_max_clone_depth = 5
 rbd_store_chunk_size = 4
 rados_connect_timeout = -1
 rbd_user = cinder-backup
-rbd_secret_uuid = 853db9b4-8e45-4f45-b9d8-6d7b5929c21c
+rbd_secret_uuid = {{ backup_uuid }}
 report_discard_supported = True
 volume_backend_name = RBD_HDD
 
