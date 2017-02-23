@@ -66,16 +66,20 @@
 - name: Pushing secrets xml for libvirt
   template:
     src: "secret_cinder_volume.xml.j2"
-    dest: "{{ node_config_directory }}/nova-libvirt/secrets/secret-volumes.xml"
+    dest: "/tmp/secret_cinder_volume.xml"
     mode: "0600"
   when: inventory_hostname in groups['compute']
 
-- name: Pushing secrets key for libvirt
-  copy:
-    content: "{{ cephx_cinder_volume_raw_key.stdout }}"
-    dest: "{{ node_config_directory }}/nova-libvirt/secrets/secret-volumes.base64"
-    mode: "0600"
-  when: inventory_hostname in groups['compute']
+- name: Copy in the template
+  command: docker cp /tmp/secret_cinder_volume.xml nova_libvirt:/
+  become: yes
+
+- name: virsh secret-define for file
+  command: docker exec  nova_libvirt bash -c 'virsh secret-define --file /secret_cinder_volume.xml'
+
+- name: virsh set secret value
+  command: docker exec  nova_libvirt bash -c 'virsh secret-set-value --secret {{ rbd_secret_uuid }} --base64 {{ cephx_cinder_volume_raw_key.stdout }}'
+
 
 - name: Extract key from file
   local_action: shell cat {{ node_config_directory }}/cinder-backup/ceph.client.cinder-backup.keyring| grep -E 'key\s*=' | awk '{ print $3 }'
@@ -84,13 +88,17 @@
 - name: Pushing secrets xml for libvirt
   template:
     src: "secret_cinder_backup.xml.j2"
-    dest: "{{ node_config_directory }}/nova-libvirt/secrets/secret_cinder_backup.xml"
+    dest: "/tmp/secret_cinder_backup.xml"
     mode: "0600"
   when: inventory_hostname in groups['compute']
 
-- name: Pushing secrets key for libvirt
-  copy:
-    content: "{{ cephx_cinder_backup_raw_key.stdout }}"
-    dest: "{{ node_config_directory }}/nova-libvirt/secrets/secret_cinder_backup.base64"
-    mode: "0600"
-  when: inventory_hostname in groups['compute']
+
+- name: Copy in the template
+  command: docker cp /tmp/secret_cinder_backup.xml nova_libvirt:/
+  become: yes
+
+- name: virsh secret-define for file
+  command: docker exec  nova_libvirt bash -c 'virsh secret-define --file /secret_cinder_backup.xml'
+
+- name: virsh set secret value
+  command: docker exec  nova_libvirt bash -c 'virsh secret-set-value --secret {{ backup_uuid }} --base64 {{ cephx_cinder_backup_raw_key.stdout }}'

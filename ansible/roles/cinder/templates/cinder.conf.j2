@@ -53,6 +53,7 @@ api_paste_config = /etc/cinder/api-paste.ini
 nova_catalog_info = compute:nova:internalURL
 
 auth_strategy = keystone
+host = "commonhost
 
 [database]
 connection = mysql+pymysql://{{ cinder_database_user }}:{{ cinder_database_password }}@{{ cinder_database_address }}/{{ cinder_database_name }}

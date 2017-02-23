@@ -89,3 +89,21 @@ nova quota-update --user $ADMIN_USER_ID --cores 40 $ADMIN_PROJECT_ID
 # 96GB ram
 nova quota-update --ram 96000 $ADMIN_PROJECT_ID
 nova quota-update --user $ADMIN_USER_ID --ram 96000 $ADMIN_PROJECT_ID
+
+#enable_ssd 
+enable_ssd= True
+enable_ssd=true
+# ...do something interesting...
+if $enable_ssd ; then
+    echo 'Enable ssd=true... create ssd and hdd in cinder!'
+    cinder type-create ssd
+    cinder type-create hdd
+    cinder type-key ssd set volume_backend_name=RBD_SSD
+    cinder type-key hdd set volume_backend_name=RBD_HDD
+    cinder extra-specs-list
+    docker restart cinder_volume
+    docker restart cinder_api
+    docker restart cinder_scheduler
+    docker restart cinder_backup
+fi
+
