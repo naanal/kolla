@@ -60,7 +60,7 @@
 
 
 - name: Extract key from file
-  local_action: shell cat {{ node_config_directory }}/cinder-volume/ceph.client.cinder.keyring| grep -E 'key\s*=' | awk '{ print $3 }'
+  shell: cat {{ node_config_directory }}/cinder-volume/ceph.client.cinder.keyring| grep -E 'key\s*=' | awk '{ print $3 }'
   register: cephx_cinder_volume_raw_key
 
 - name: Pushing secrets xml for libvirt
@@ -82,7 +82,7 @@
 
 
 - name: Extract key from file
-  local_action: shell cat {{ node_config_directory }}/cinder-backup/ceph.client.cinder-backup.keyring| grep -E 'key\s*=' | awk '{ print $3 }'
+  shell: cat {{ node_config_directory }}/cinder-backup/ceph.client.cinder-backup.keyring| grep -E 'key\s*=' | awk '{ print $3 }'
   register: cephx_cinder_backup_raw_key
 
 - name: Pushing secrets xml for libvirt
